@@ -1,5 +1,6 @@
 
 //add event listen for the first click when the document has loaded
+var clicked = 0;
 
 document.addEventListener('DOMContentLoaded', firstClick);
 
@@ -30,31 +31,70 @@ function generateGameBoard (numsym) {
   var numOfCards = numsym * 2;
   console.log(numOfCards);
 
+  //cards available during round - 0 to numSym - 1
+
+  var symbols = [
+      { symbol: "@" , used: 0 },
+      { symbol: "!" , used: 0 },
+      { symbol: "*" , used: 0 },
+      { symbol: "&" , used: 0 },
+      { symbol: "#" , used: 0 },
+      { symbol: "?" , used: 0 },
+      { symbol: "$" , used: 0 },
+      { symbol: "%" , used: 0 } ];
+
   var board = document.createElement("div"); //create a div element
   board.className = "board-game";
+  board.setAttribute("data-numflip", 0);
 
   for (var i = 0; i < numOfCards; i++) {
     var card = document.createElement("div"); //create another div element
     //set all the attributes of the card
+    var sym = randomSymbol(numsym, symbols);
+    console.log(sym);
     card.className = "card";
+    card.setAttribute("data-symbol", sym);
+    card.id = i;
+    card.addEventListener("click", showCard);
     board.appendChild(card);
   }
   //append board game to the body of the html page
   document.body.appendChild(board);
+}
 
-  //availble symbols
-  // @ ! * & # ? $ % ~
+function playGame() {
 
-  var symbols = {
-    0: "@",
-    1: "!",
-    2: "*",
-    3: "&",
-    4: "#",
-    5: "?",
-    6: "$",
-    7: "%",
-    8: "~";
+  if (clicked > 2) {
+    for (var i = 0; i < numOfCards; i++) {
+      document.getElementById(i).disabled = true;
+    }
   }
+}
 
+function showCard() {
+
+  var para = document.createElement("p");
+  var sym = document.createTextNode(this.getAttribute("data-symbol"));
+  console.log('symbol: ', sym);
+  para.appendChild(sym);
+  this.appendChild(para);
+  document.getElementById(this.id).style.backgroundColor = "#ffa64d";
+  clicked++;
+}
+
+function randomSymbol(numsym, symbols) {
+
+  //return the symbol that was picked
+  var found = 0;
+  while (!found) {
+    var random = Math.floor(Math.random()*(numsym));
+    if(symbols[random].used == 2) {
+      found = 0;
+    }
+    else {
+      symbols[random].used++;
+      found = 1;
+      return symbols[random].symbol;
+    }
+  }
 }
