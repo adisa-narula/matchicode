@@ -7,7 +7,6 @@ body {
 }
 
 .board-game {
-
   margin: auto;
   width: 60%;
   padding: 10px;
@@ -25,4 +24,14 @@ body {
 
 .board-game p {
   text-align: center;
+}
+
+#score-board {
+
+  margin: auto;
+  display: block;
+  background-color:#ffcc00;
+  border-radius: 2px;
+  box-shadow:2px 2px 2px #888888;
+  margin: 20px;
 }

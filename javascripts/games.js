@@ -27,9 +27,73 @@ function hideForm() {
 
 function generateGameBoard (numsym) {
 
+  var currentCards = [];
+  var numFlipped = 0;
+  var numGuess = 0;
+  var numMatches = 0;
   var numOfCards = numsym * 2;
   console.log(numOfCards);
 
+  var playGame = function(event) {
+
+    //display the card
+    displayCard(this);
+    document.getElementById(this.id).removeEventListener('click', playGame);
+
+    //add numflipped and the card that was flipped
+    currentCards.push(this.id);
+    numFlipped++;
+    console.log(numFlipped);
+    console.log(currentCards[0], currentCards[1]);
+
+    if (numFlipped == 2) {
+      //check matches
+      //match
+      numGuess++;
+      var card1 = document.getElementById(currentCards[0]);
+      var card2 = document.getElementById(currentCards[1]);
+
+      //change the number of guesses
+      document.getElementById("current-score").textContent = "#?'s: " + numGuess;
+
+      console.log(card1.textContent);
+      console.log(card2.textContent);
+      console.log(card1.id);
+
+      if (card1.textContent != card2.textContent) {
+        //flip them back
+        // allow user to look at cards - set timer
+        setTimeout(function() {
+          turnCardOver(card1.id);
+          turnCardOver(card2.id);},
+          650);
+        }
+      //there's a match!
+      else {
+        numMatches++;
+        console.log("num matches:",numMatches);
+      }
+        //reset numflipped to 0 and cards from currentCards
+      numFlipped = 0;
+      currentCards.pop();
+      currentCards.pop();
+
+      if (numMatches == numsym) {
+        //get the board game
+        setTimeout(win,750);
+      }
+    }
+  }
+
+  var turnCardOver = function (id) {
+
+    console.log(id);
+    document.getElementById(id).style.backgroundColor = "#8080ff";
+    //add event listener back
+    document.getElementById(id).addEventListener('click', playGame);
+    //hide text content
+    document.getElementById(id).textContent = "";
+  }
   //cards available during round - 0 to numSym - 1
 
   var symbols = [
@@ -44,7 +108,12 @@ function generateGameBoard (numsym) {
 
   var board = document.createElement("div"); //create a div element
   board.id = "board-game";
-  board.setAttribute("data-numflip", 0);
+  var scoreBoard = document.createElement("div"); //create another div element
+  var showScore = document.createElement("p");
+  showScore.id = "current-score";
+  showScore.textContent = "#?'s: 0";
+  scoreBoard.id = "score-board";
+  scoreBoard.appendChild(showScore);
 
   for (var i = 0; i < numOfCards; i++) {
     var card = document.createElement("div"); //create another div element
@@ -54,35 +123,29 @@ function generateGameBoard (numsym) {
     card.className = "card";
     card.setAttribute("data-symbol", sym);
     card.id = i;
-    card.addEventListener("click", showCard);
+    card.addEventListener("click", playGame);
     board.appendChild(card);
   }
   //append board game to the body of the html page
+  document.body.appendChild(scoreBoard);
   document.body.appendChild(board);
 }
 
-function showCard() {
+function displayCard(event) {
+  var para = document.createElement("p");
+  var sym = document.createTextNode(event.getAttribute("data-symbol"));
+  console.log('symbol: ', sym);
+  para.appendChild(sym);
+  event.appendChild(para);
+  document.getElementById(event.id).style.backgroundColor = "#ffa64d";
+}
 
-  var board = document.getElementById("board-game");
-  var numflip = board.getAttribute("data-numflip");
-  console.log(numflip);
-
-  if ((document.getElementById(this.id).disabled) && numflip >= 2) {
-    //flip back
-  }
-
-  else {
-    document.getElementById(this.id).disabled = true;
-    var para = document.createElement("p");
-    var sym = document.createTextNode(this.getAttribute("data-symbol"));
-    console.log('symbol: ', sym);
-    para.appendChild(sym);
-    this.appendChild(para);
-    document.getElementById(this.id).style.backgroundColor = "#ffa64d";
-
-    numflip++;
-    board.setAttribute("data-numflip", numflip);
-  }
+function win() {
+  var removeBoard = document.getElementById("board-game");
+  removeBoard.parentNode.removeChild(removeBoard);
+  var winMessage = document.createElement("p");
+  winMessage.textContent = "You Won! Thanks for playing :)";
+  document.body.appendChild(winMessage);
 }
 
 function randomSymbol(numsym, symbols) {
