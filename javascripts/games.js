@@ -73,7 +73,7 @@ function generateGameBoard (numsym) {
         numMatches++;
         console.log("num matches:",numMatches);
       }
-        //reset numflipped to 0 and cards from currentCards
+        //reset numflipped to 0 and pop cards from currentCards
       numFlipped = 0;
       currentCards.pop();
       currentCards.pop();
@@ -115,6 +115,43 @@ function generateGameBoard (numsym) {
   scoreBoard.id = "score-board";
   scoreBoard.appendChild(showScore);
 
+  //display board as square
+
+  // var squareRoot = Math.sqrt(numOfCards);
+  // var row;
+  // var col;
+  //
+  // if ((squareRoot % 1) === 0) {
+  //   row = squareRoot;
+  //   col = squareRoot;
+  // }
+  // else {
+  //   row = 1;
+  //   col = numOfCards;
+  // }
+  //create a table
+  // var table = document.createElement('table');
+  // var tbody = document.createElement('tbody');
+
+  // for (var i = 0; i < row; i++) {
+  //   var tr = document.createElement('tr');
+  //   for (var j = 0; j < col; j++) {
+  //     var td = document.createElement('td');
+  //     var card = document.createElement('div');
+  //     var sym = randomSymbol(numsym, symbols);
+  //     console.log(sym);
+  //     card.className = "card";
+  //     card.setAttribute("data-symbol", sym);
+  //     card.id = i+j;
+  //     card.addEventListener("click", playGame);
+  //     td.appendChild(card);
+  //     tr.appendChild(td);
+  //   }
+  //   tbody.appendChild(tr);
+  // }
+  // table.appendChild(tbody);
+  // board.appendChild(table);
+
   for (var i = 0; i < numOfCards; i++) {
     var card = document.createElement("div"); //create another div element
     //set all the attributes of the card
@@ -131,13 +168,13 @@ function generateGameBoard (numsym) {
   document.body.appendChild(board);
 }
 
-function displayCard(event) {
+function displayCard(obj) {
   var para = document.createElement("p");
-  var sym = document.createTextNode(event.getAttribute("data-symbol"));
+  var sym = document.createTextNode(obj.getAttribute("data-symbol"));
   console.log('symbol: ', sym);
   para.appendChild(sym);
-  event.appendChild(para);
-  document.getElementById(event.id).style.backgroundColor = "#ffa64d";
+  obj.appendChild(para);
+  document.getElementById(obj.id).style.backgroundColor = "#ffa64d";
 }
 
 function win() {
