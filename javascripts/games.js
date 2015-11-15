@@ -1,6 +1,5 @@
 
 //add event listen for the first click when the document has loaded
-var clicked = 0;
 
 document.addEventListener('DOMContentLoaded', firstClick);
 
@@ -44,7 +43,7 @@ function generateGameBoard (numsym) {
       { symbol: "%" , used: 0 } ];
 
   var board = document.createElement("div"); //create a div element
-  board.className = "board-game";
+  board.id = "board-game";
   board.setAttribute("data-numflip", 0);
 
   for (var i = 0; i < numOfCards; i++) {
@@ -62,24 +61,28 @@ function generateGameBoard (numsym) {
   document.body.appendChild(board);
 }
 
-function playGame() {
-
-  if (clicked > 2) {
-    for (var i = 0; i < numOfCards; i++) {
-      document.getElementById(i).disabled = true;
-    }
-  }
-}
-
 function showCard() {
 
-  var para = document.createElement("p");
-  var sym = document.createTextNode(this.getAttribute("data-symbol"));
-  console.log('symbol: ', sym);
-  para.appendChild(sym);
-  this.appendChild(para);
-  document.getElementById(this.id).style.backgroundColor = "#ffa64d";
-  clicked++;
+  var board = document.getElementById("board-game");
+  var numflip = board.getAttribute("data-numflip");
+  console.log(numflip);
+
+  if ((document.getElementById(this.id).disabled) && numflip >= 2) {
+    //flip back
+  }
+
+  else {
+    document.getElementById(this.id).disabled = true;
+    var para = document.createElement("p");
+    var sym = document.createTextNode(this.getAttribute("data-symbol"));
+    console.log('symbol: ', sym);
+    para.appendChild(sym);
+    this.appendChild(para);
+    document.getElementById(this.id).style.backgroundColor = "#ffa64d";
+
+    numflip++;
+    board.setAttribute("data-numflip", numflip);
+  }
 }
 
 function randomSymbol(numsym, symbols) {
