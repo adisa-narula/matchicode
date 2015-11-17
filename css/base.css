@@ -46,7 +46,8 @@ table {
 .win {
 
   border-radius: 5px;
-  width: 50%;
+  width: 350px;
+  height: 100px;
   margin: 0 auto;
   background-color: #e60073;
 
