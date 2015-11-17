@@ -6,32 +6,39 @@ body {
   text-align: center;
 }
 
-.board-game {
-  margin: auto;
-  width: 60%;
-  padding: 10px;
-}
-
 .card {
   display: inline-block;
+  text-align: center;
+  margin: 0 auto;
   width: 70px;
   height: 70px;
   background-color: #8080ff;
   border-radius: 5px;
-  margin: 5px;
+  margin: 10px;
   box-shadow:5px 5px 5px #888888;
-}
-
-.board-game p {
-  text-align: center;
 }
 
 #score-board {
 
-  margin: auto;
+  margin: 0 auto;
   display: block;
   background-color:#ffcc00;
   border-radius: 2px;
   box-shadow:2px 2px 2px #888888;
   margin: 20px;
+}
+
+#board-game {
+  margin: 0 auto;
+  border-spacing: 20px;
+}
+
+table {
+  margin: auto;
+}
+
+.card:hover {
+  width: 75px;
+  height: 75px;
+  box-shadow:5px 5px 5px #888888;
 }

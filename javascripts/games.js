@@ -38,6 +38,7 @@ function generateGameBoard (numsym) {
 
     //display the card
     displayCard(this);
+    console.log('this card was clicked:', this);
     document.getElementById(this.id).removeEventListener('click', playGame);
 
     //add numflipped and the card that was flipped
@@ -80,7 +81,7 @@ function generateGameBoard (numsym) {
 
       if (numMatches == numsym) {
         //get the board game
-        setTimeout(win,750);
+        setTimeout(win,700);
       }
     }
   }
@@ -107,6 +108,8 @@ function generateGameBoard (numsym) {
       { symbol: "%" , used: 0 } ];
 
   var board = document.createElement("div"); //create a div element
+  // var boardContainer = document.createElement("div");
+  // boardContainer.id = "board-container";
   board.id = "board-game";
   var scoreBoard = document.createElement("div"); //create another div element
   var showScore = document.createElement("p");
@@ -117,63 +120,78 @@ function generateGameBoard (numsym) {
 
   //display board as square
 
-  // var squareRoot = Math.sqrt(numOfCards);
-  // var row;
-  // var col;
-  //
-  // if ((squareRoot % 1) === 0) {
-  //   row = squareRoot;
-  //   col = squareRoot;
-  // }
-  // else {
-  //   row = 1;
-  //   col = numOfCards;
-  // }
-  //create a table
-  // var table = document.createElement('table');
-  // var tbody = document.createElement('tbody');
+  var squareRoot = Math.sqrt(numOfCards);
+  var random
+  var row;
+  var col;
+  
+  if ((squareRoot % 1) === 0) {
+    row = squareRoot;
+    col = squareRoot;
 
-  // for (var i = 0; i < row; i++) {
-  //   var tr = document.createElement('tr');
-  //   for (var j = 0; j < col; j++) {
-  //     var td = document.createElement('td');
-  //     var card = document.createElement('div');
-  //     var sym = randomSymbol(numsym, symbols);
-  //     console.log(sym);
-  //     card.className = "card";
-  //     card.setAttribute("data-symbol", sym);
-  //     card.id = i+j;
-  //     card.addEventListener("click", playGame);
-  //     td.appendChild(card);
-  //     tr.appendChild(td);
-  //   }
-  //   tbody.appendChild(tr);
-  // }
-  // table.appendChild(tbody);
-  // board.appendChild(table);
-
-  for (var i = 0; i < numOfCards; i++) {
-    var card = document.createElement("div"); //create another div element
-    //set all the attributes of the card
-    var sym = randomSymbol(numsym, symbols);
-    console.log(sym);
-    card.className = "card";
-    card.setAttribute("data-symbol", sym);
-    card.id = i;
-    card.addEventListener("click", playGame);
-    board.appendChild(card);
   }
+  else {
+    row = 2;
+    col = numOfCards/2;
+  }
+
+  // create a table
+  var table = document.createElement('table');
+  var tbody = document.createElement('tbody');
+
+  var count = 0; 
+
+  for (var i = 0; i < row; i++) {
+    var tr = document.createElement('tr');
+    for (var j = 0; j < col; j++) {
+      var card = document.createElement('td');
+      // var card = document.createElement('div');
+      var sym = randomSymbol(numsym, symbols);
+      console.log(sym);
+      card.className = "card";
+      card.setAttribute("data-symbol", sym);
+      card.id = count;
+      count++;
+      console.log("i: ", i);
+      console.log("j: ", j);
+      console.log("card id:", card.id)
+      card.addEventListener("click", playGame);
+      // td.appendChild(card);
+      tr.appendChild(card);
+    }
+    tbody.appendChild(tr);
+  }
+
+  table.appendChild(tbody);
+  // boardContainer.appendChild(table);
+  board.appendChild(table);
+
+  // for (var i = 0; i < numOfCards; i++) {
+  //   var card = document.createElement("div"); //create another div element
+  //   //set all the attributes of the card
+  //   var sym = randomSymbol(numsym, symbols);
+  //   console.log(sym);
+  //   card.className = "card";
+  //   card.setAttribute("data-symbol", sym);
+  //   card.id = i;
+  //   card.addEventListener("click", playGame);
+  //   board.appendChild(card);
+  // }
   //append board game to the body of the html page
+
   document.body.appendChild(scoreBoard);
   document.body.appendChild(board);
 }
 
 function displayCard(obj) {
-  var para = document.createElement("p");
-  var sym = document.createTextNode(obj.getAttribute("data-symbol"));
-  console.log('symbol: ', sym);
-  para.appendChild(sym);
-  obj.appendChild(para);
+  // var para = document.createElement("p");
+  var sym = document.getElementById(obj.id).getAttribute("data-symbol");
+  console.log('symbol in display: ', sym);
+  console.log(typeof sym);
+  // para.appendChild(sym);
+  // obj.appendChild(para);
+  document.getElementById(obj.id).textContent = sym;
+  console.log('changing background color');
   document.getElementById(obj.id).style.backgroundColor = "#ffa64d";
 }
 
