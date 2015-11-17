@@ -199,6 +199,7 @@ function win() {
   var removeBoard = document.getElementById("board-game");
   removeBoard.parentNode.removeChild(removeBoard);
   var winMessage = document.createElement("p");
+  winMessage.className = "win";
   winMessage.textContent = "You Won! Thanks for playing :)";
   document.body.appendChild(winMessage);
 }

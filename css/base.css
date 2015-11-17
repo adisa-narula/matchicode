@@ -42,3 +42,12 @@ table {
   height: 75px;
   box-shadow:5px 5px 5px #888888;
 }
+
+.win {
+
+  border-radius: 5px;
+  width: 50%;
+  margin: 0 auto;
+  background-color: #e60073;
+
+}
